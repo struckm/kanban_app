@@ -77,7 +77,6 @@ class Note extends React.Component {
         if(this.props.onEdit) {
             this.props.onEdit(value);
             
-            // Exit edit mode.
             this.setState({
                editing: false 
             });
