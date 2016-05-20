@@ -59,14 +59,13 @@ class Note extends React.Component {
     }
     
     checkEnter(e) {
-        // The user hit enter, let's finish up.
         if(e.key === 'Enter') {
             this.finishEdit(e);
         }        
     }
     
     finishEdit(e) {
-        // Note will trigger an optional OnEdit callback onece it
+        // Note will trigger an optional OnEdit callback once it
         // has a new value. We will use this communicate the change to
         // App.
         //
