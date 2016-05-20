@@ -1,6 +1,7 @@
-import uuid from 'node-uuid';
 import React from 'react';
-import Notes from './notes.js';
+import Notes from './notes';
+import NoteActions from '../actions/noteActions';
+import NoteStore from '../stores/noteStore';
 
 class App extends React.Component {
     constructor() {
@@ -10,32 +11,25 @@ class App extends React.Component {
         this.addNote = this.addNote.bind(this);
         this.editNote = this.editNote.bind(this);
         this.deleteNote = this.deleteNote.bind(this);
-        
-        this.state = {
-            notes: [
-                {
-                    id: uuid.v4(),
-                    task: 'Learn Webpack'
-                },
-                {
-                    id: uuid.v4(),
-                    task: 'Learn React'
-                },
-                {
-                    id: uuid.v4(),
-                    task: 'Do Laundry'
-                }
-            ]
-        };
+        this.storeChanged = this.storeChanged.bind(this);
+        this.state = NoteStore.getState();
+    }
+    
+    // React Lifecycle event methods
+    componentDidMount() {
+        NoteStore.listen(this.storeChanged);
+    }
+
+    componentWillUnmount() {
+        NoteStore.unlisten(this.storeChanged);
+    }
+
+    storeChanged(state) {
+        this.setState(state);
     }
     
     addNote() {
-        this.setState({
-           notes: this.state.notes.concat([{
-              id: uuid.v4(),
-              task: 'New Task'
-           }])
-        });
+        NoteActions.create({task: 'New Task'});
     }
 
     editNote(id, task) {
@@ -44,24 +38,13 @@ class App extends React.Component {
             return;
         }
         
-        const notes = this.state.notes.map(note => {
-            if(note.id === id && task) {
-                note.task = task;
-            }
-            
-            return note;
-        });
-        
-        this.setState({notes});
+        NoteActions.update({id, task});
     }
     
     deleteNote(id, e) {
-        // Avoid bubbling to edit
         e.stopPropagation();
         
-        this.setState({
-           notes: this.state.notes.filter(note => note.id != id) 
-        });
+        NoteActions.delete(id);
     }
     
     render() {
