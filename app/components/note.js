@@ -38,7 +38,7 @@ class Note extends React.Component {
     }
 
     renderDelete() {
-        return <button onClick={this.props.onDelete}>x</button>;    
+        return <button onClick={this.props.onDelete} className="delete-note">x</button>;    
     }
     
     renderNote() {
@@ -46,7 +46,7 @@ class Note extends React.Component {
         
         return (
             <div onClick={this.edit}>
-                <span>{this.props.task}</span>
+                <span className="task">{this.props.task}</span>
                 {onDelete ? this.renderDelete() : null}
             </div>
         );

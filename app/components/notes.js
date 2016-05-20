@@ -3,8 +3,8 @@ import Note from './note.js';
 
 export default ({notes, onEdit, onDelete}) => {
     return (
-        <ul>{notes.map(note => 
-            <li key={note.id}>
+        <ul className="notes">{notes.map(note => 
+            <li key={note.id} className="note">
             <Note 
                 task={note.task} 
                 onEdit={onEdit.bind(null, note.id)}
