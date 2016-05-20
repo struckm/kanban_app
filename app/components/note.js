@@ -77,6 +77,7 @@ class Note extends React.Component {
         if(this.props.onEdit) {
             this.props.onEdit(value);
             
+            // Exit edit mode.
             this.setState({
                editing: false 
             });
@@ -84,6 +85,7 @@ class Note extends React.Component {
     }
     
     render() {
+        // Render the component differently based on state
         if(this.state.editing) {
             return this.renderEdit();
         }
