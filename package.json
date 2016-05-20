@@ -19,6 +19,11 @@
   },
   "homepage": "https://github.com/struckm/kanban_app#readme",
   "devDependencies": {
+    "babel-core": "^6.9.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-survivejs-kanban": "^0.3.3",
     "css-loader": "^0.23.1",
     "jshint": "^2.9.2",
     "jshint-loader": "^0.8.3",
