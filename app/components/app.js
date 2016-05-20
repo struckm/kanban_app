@@ -1,3 +1,4 @@
+import AltContainer from 'alt-container';
 import React from 'react';
 import Notes from './notes';
 import NoteActions from '../actions/noteActions';
@@ -11,21 +12,6 @@ class App extends React.Component {
         this.addNote = this.addNote.bind(this);
         this.editNote = this.editNote.bind(this);
         this.deleteNote = this.deleteNote.bind(this);
-        this.storeChanged = this.storeChanged.bind(this);
-        this.state = NoteStore.getState();
-    }
-    
-    // React Lifecycle event methods
-    componentDidMount() {
-        NoteStore.listen(this.storeChanged);
-    }
-
-    componentWillUnmount() {
-        NoteStore.unlisten(this.storeChanged);
-    }
-
-    storeChanged(state) {
-        this.setState(state);
     }
     
     addNote() {
@@ -48,11 +34,16 @@ class App extends React.Component {
     }
     
     render() {
-        const notes = this.state.notes;
         return (
             <div>
                 <button className="add-note" onClick={this.addNote}>+</button>
-                <Notes notes={notes} onEdit={this.editNote} onDelete={this.deleteNote} />
+                <AltContainer
+                    stores={[NoteStore]}
+                    inject={{
+                        notes: () => NoteStore.getState().notes
+                    }}>
+                    <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
+                </AltContainer>
             </div>
         );
     }
