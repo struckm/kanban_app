@@ -4,4 +4,4 @@ module.exports = function() {
     element.innerHTML = 'Hello World!';
     
     return element;
-}
+};

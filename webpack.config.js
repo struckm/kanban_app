@@ -17,6 +17,14 @@ const common = {
         filename: 'bundle.js'
     },
     module: {
+        preLoaders: [
+            {
+                test: /\.js?$/,
+                loaders: ['jshint'],
+                // define an include so we check just the files we need
+                include: PATHS.app
+            }  
+        ],
         loaders: [
             {
                 // Test expects a RegExp! Not the slashes!
@@ -33,6 +41,7 @@ const common = {
 // Default configuration
 if(TARGET === 'start' || !TARGET) {
     module.exports = merge(common, {
+        devtool: 'eval-source-map',
         devServer: {
             contentBase: PATHS.build,
             
