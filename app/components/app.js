@@ -1,48 +1,31 @@
 import AltContainer from 'alt-container';
 import React from 'react';
-import Notes from './notes';
-import NoteActions from '../actions/noteActions';
-import NoteStore from '../stores/noteStore';
+import Lanes from './lanes';
+import LaneActions from '../actions/laneActions';
+import LaneStore from '../stores/laneStore';
 
 class App extends React.Component {
     constructor() {
         super();
         
-        // autobind 
-        this.addNote = this.addNote.bind(this);
-        this.editNote = this.editNote.bind(this);
-        this.deleteNote = this.deleteNote.bind(this);
+        // autobind
+        this.addLane = this.addLane.bind(this);
     }
     
-    addNote() {
-        NoteActions.create({task: 'New Task'});
+    addLane() {
+        LaneActions.create({name: 'New Lane'});
     }
 
-    editNote(id, task) {
-        // Don't modify if trying to set an empty value
-        if(!task.trim()) {
-            return;
-        }
-        
-        NoteActions.update({id, task});
-    }
-    
-    deleteNote(id, e) {
-        e.stopPropagation();
-        
-        NoteActions.delete(id);
-    }
-    
     render() {
         return (
             <div>
-                <button className="add-note" onClick={this.addNote}>+</button>
+                <button className="add-lane" onClick={this.addLane}>+</button>
                 <AltContainer
-                    stores={[NoteStore]}
+                    stores={[LaneStore]}
                     inject={{
-                        notes: () => NoteStore.getState().notes
+                        lanes: () => LaneStore.getState().lanes || []
                     }}>
-                    <Notes onEdit={this.editNote} onDelete={this.deleteNote} />
+                    <Lanes />
                 </AltContainer>
             </div>
         );
