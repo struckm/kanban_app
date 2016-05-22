@@ -7,6 +7,8 @@ class LaneStore {
         this.bindActions(LaneActions);
 
         this.lanes = [];
+
+        
     }
     
     attachToLane({laneId, noteId}) {
@@ -45,6 +47,20 @@ class LaneStore {
         
         this.setState({
            lanes: lanes.concat(lane) 
+        });
+    }
+    
+    update(updatedLane) {
+        const lanes = this.lanes.map(lane => {
+            if(lane.id === updatedLane.id) {
+                return Object.assign({}, lane, updatedLane);
+            }
+        });
+    }
+    
+    delete(id) {
+        this.setState({
+           lanes: this.lanes.filter(lane => lane.id !== id) 
         });
     }
 }

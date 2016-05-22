@@ -48,7 +48,7 @@ body {
     visibility: visible;
 }
 
-lane {
+.lane {
     display: inline-block;
     margin: 1em;
     background-color: #efefef;
@@ -68,7 +68,6 @@ lane {
 }
 
 .lane-name {
-    From Notes to Kanban 119
     float: left;
 }
 

@@ -16,15 +16,17 @@ export default class Lane extends React.Component {
         this.activateLaneEdit = this.activateLaneEdit.bind(this);
         this.activateNoteEdit = this.activateNoteEdit.bind(this);
     }
-    
-    editNote(id, task) {
-    // Don't modify if trying set an empty value
-        if(!task.trim()) {
-            return;
-        }
-        NoteActions.update({id, task});
-    }
 
+    activateLaneEdit() {
+        const laneId = this.props.lane.id;
+        
+        LaneActions.update({id: laneId, editing: true});
+    }
+    
+    activateNoteEdit(id) {
+        NoteActions.update({id, editing: true});
+    }
+    
     addNote(e) {
         // If note is added, avoid opening lane name edit by stopping
         // event bubbling in this case.
@@ -38,6 +40,31 @@ export default class Lane extends React.Component {
            laneId 
         });
     };
+        
+    editName(name) {
+        const laneId = this.props.lane.id;
+        if(!name.trim()) {
+            LaneActions.update({id: laneId, editing: false});
+            return;
+        }
+        
+        LaneActions.update({id: laneId, name, editing: false});
+    }
+
+    editNote(id, task) {
+    // Don't modify if trying set an empty value
+        if(!task.trim()) {
+            NoteActions.update({id, editing: false});
+            return;
+        }
+        NoteActions.update({id, task, editing: false});
+    }
+
+    deleteLane() {
+        const laneId = this.props.lane.id;
+        
+        LaneActions.delete(laneId);
+    }
 
     deleteNote(noteId, e) {
         e.stopPropagation();
@@ -47,28 +74,6 @@ export default class Lane extends React.Component {
         NoteActions.delete(noteId);
     }
 
-    editName(name) {
-        const laneId = this.props.lane.id;
-        
-        console.log(`edit lane ${laneId} name using ${name}`);    
-    }
-    
-    deleteLane() {
-        const laneId = this.props.lane.id;
-        
-        console.log(`delete lane ${laneId}`);        
-    }
-    
-    activateLaneEdit() {
-        const laneId = this.props.lane.id;
-        
-        console.log(`activate lane ${laneId} edit`);        
-    }
-    
-    activateNoteEdit(id) {
-        console.log(`activate note ${id} edit`);
-    }
-    
     render() {
         const {lane, ...props} = this.props;
         return (
